@@ -8,7 +8,6 @@ export default function SleepPage() {
   const [sleepQuality, setSleepQuality] = useState(3)
   const [awakenings, setAwakenings] = useState(0)
   const [message, setMessage] = useState("")
-
   const [lastSleep, setLastSleep] = useState<any>(null)
   const [duration, setDuration] = useState<number | null>(null)
 
@@ -55,30 +54,30 @@ export default function SleepPage() {
   }
 
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Log Sleep</h1>
+    <div className="max-w-md mx-auto space-y-6">
+      <h1 className="text-2xl font-bold">Log Sleep</h1>
 
-      <div>
-        <label>Bedtime</label>
+      <div className="space-y-2">
+        <label className="block text-sm">Bedtime</label>
         <input
           type="datetime-local"
           value={bedtime}
           onChange={(e) => setBedtime(e.target.value)}
-          style={{ border: "1px solid black", padding: 5, display: "block" }}
+          className="w-full bg-gray-800 border border-gray-600 p-2 rounded"
         />
       </div>
 
-      <div>
-        <label>Wake Time</label>
+      <div className="space-y-2">
+        <label className="block text-sm">Wake Time</label>
         <input
           type="datetime-local"
           value={wakeTime}
           onChange={(e) => setWakeTime(e.target.value)}
-          style={{ border: "1px solid black", padding: 5, display: "block" }}
+          className="w-full bg-gray-800 border border-gray-600 p-2 rounded"
         />
       </div>
 
-      <div>
+      <div className="space-y-2">
         <label>Sleep Quality: {sleepQuality}</label>
         <input
           type="range"
@@ -86,28 +85,34 @@ export default function SleepPage() {
           max="5"
           value={sleepQuality}
           onChange={(e) => setSleepQuality(Number(e.target.value))}
+          className="w-full"
         />
       </div>
 
-      <div>
+      <div className="space-y-2">
         <label>Awakenings</label>
         <input
           type="number"
           value={awakenings}
           onChange={(e) => setAwakenings(Number(e.target.value))}
-          style={{ border: "1px solid black", padding: 5 }}
+          className="w-full bg-gray-800 border border-gray-600 p-2 rounded"
         />
       </div>
 
-      <button onClick={handleSubmit}>
+      <button
+        onClick={handleSubmit}
+        className="w-full bg-white text-black py-2 rounded font-semibold"
+      >
         Log Sleep
       </button>
 
-      {message && <p>{message}</p>}
+      {message && (
+        <p className="text-sm text-green-400">{message}</p>
+      )}
 
       {lastSleep && (
-        <div style={{ marginTop: 20 }}>
-          <h3>Last Sleep Summary</h3>
+        <div className="border border-gray-700 p-4 rounded">
+          <h3 className="font-semibold mb-2">Last Sleep Summary</h3>
           <p>Duration: {duration?.toFixed(2)} hours</p>
           <p>Quality: {lastSleep.sleepQuality}</p>
           <p>Awakenings: {lastSleep.awakenings}</p>
