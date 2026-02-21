@@ -1,15 +1,70 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model ItchLog {
+  id        String   @id @default(uuid())
+  timestamp DateTime @default(now())
+  period    ItchPeriod
+  intensity Int
+  createdAt DateTime @default(now())
+}
+
+model SleepLog {
+  id             String   @id @default(uuid())
+  date           DateTime
+  bedtime        DateTime
+  wakeTime       DateTime
+  sleepQuality   Int
+  awakenings     Int
+  createdAt      DateTime @default(now())
+}
+
+model MealLog {
+  id        String   @id @default(uuid())
+  timestamp DateTime @default(now())
+  mealType  MealType
+  createdAt DateTime @default(now())
+
+  items     MealItem[]
+}
+
+model MealItem {
+  id         String   @id @default(uuid())
+  name       String
+  portion    String
+  category   FoodCategory
+  mealLog    MealLog  @relation(fields: [mealLogId], references: [id])
+  mealLogId  String
+}
+
+enum ItchPeriod {
+  MORNING
+  AFTERNOON
+  NIGHT
+  FLARE
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  SNACK
+  DINNER
+}
+
+enum FoodCategory {
+  REFINED_CARB
+  WHOLE_GRAIN
+  LEGUME
+  FERMENTED
+  FRIED
+  SWEET
+  VEGETABLE
+  FRUIT
+  PROTEIN
 }
